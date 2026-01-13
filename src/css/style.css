@@ -1,0 +1,147 @@
+/* === Configuración general === */
+html {
+  font-size: 14px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Inter", sans-serif;
+  height: 100vh;
+}
+
+/* === Contenedor principal === */
+.contenedorApp {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* === Header === */
+header {
+  background-color: #1f2937;
+  color: white;
+  padding: 1rem 2rem;
+}
+
+.barraNavegacion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+.boton {
+  background-color: #3b82f6;
+  color: white;
+  text-decoration: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.5rem;
+  font-size: 1.4rem;
+}
+
+.boton:hover {
+  background-color: #2563eb;
+}
+
+/* === Contenido principal: mapa + sidebar === */
+.contenido {
+  display: flex;
+  flex-direction: row; /* Fila por defecto (pantallas grandes) */
+  flex: 1;
+  overflow: hidden;
+}
+
+/* === Sidebar === */
+#sidebar {
+  width: 25%; /* 300px */
+  background-color: #f3f4f6;
+  border-right: 1px solid #d1d5db;
+  padding: 1.5rem;
+  overflow-y: auto;
+  order: 1; /* Aparece primero en escritorio */
+  font-size: 1.4rem;
+}
+
+#filtros {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#filtros select {
+  padding: 0.6rem;
+  font-size: 1.4rem;
+}
+
+/* === Contenedor del mapa === */
+.contenedorMapa {
+  flex: 1;
+  order: 2;
+  position: relative;
+}
+
+#map {
+  position: absolute;
+  inset: 0; 
+}
+
+* {
+  box-sizing: border-box;
+  max-width: 100%;
+}
+
+/* 🔹 2. Evita el scroll horizontal global */
+html,
+body {
+  overflow-x: hidden;
+  width: 100%;
+}
+
+
+
+
+
+
+
+/* === Media query para pantallas pequeñas === */
+@media (max-width: 768px) {
+  .contenido {
+    flex-direction: column; /* Pasa de fila a columna */
+    height: 100%;
+    width: 100%;
+    overflow-x: hidden; /* evita que flex genere scroll lateral */
+  }
+
+  /* Invertimos el orden */
+  .contenedorMapa {
+    order: 1; /* El mapa se muestra primero */
+    height: 70vh;
+  }
+
+  #sidebar {
+    order: 2; /* Sidebar debajo */
+    width: 100%;
+    height: 30vh;
+    border-right: none;
+    border-top: 1px solid #d1d5db;
+  }
+
+  header h1 {
+    font-size: 1.6rem;
+  }
+
+  .boton {
+    font-size: 1.3rem;
+  }
+}
+
+/* === Opcional: mejora visual === */
+#sidebar::-webkit-scrollbar {
+  width: 0.6rem;
+}
+#sidebar::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 0.3rem;
+}
+
