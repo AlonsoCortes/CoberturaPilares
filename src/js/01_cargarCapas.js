@@ -1,3 +1,5 @@
+import { generarPopupCoberturaHTML } from './popup.js';
+
 export function cargarCapas(map) {
   const estilos = getComputedStyle(document.documentElement);
 
@@ -5,7 +7,7 @@ export function cargarCapas(map) {
     // === Capa de municipios ===
     map.addSource('municipios_source', {
       type: 'geojson',
-      data: './src/assets/data/entidades_municipal.geojson'
+      data: './src/assets/data/alcaldias.geojson'
     });
 
     map.addLayer({
@@ -14,54 +16,75 @@ export function cargarCapas(map) {
       source: 'municipios_source',
       paint: {
         'line-color': '#000000ff',
-        'line-width': 0.1,
-        'line-opacity': 0.1,
-      }
-    });
-    // === Capa de estados ===
-    map.addSource('estados_source', {
-      type: 'geojson',
-      data: './src/assets/data/entidades_estatales.geojson'
-    });
-
-    map.addLayer({
-      id: 'estados_layer',
-      type: 'line',
-      source: 'estados_source',
-      paint: {
-        'line-color': '#000000ff',
         'line-width': 0.5,
         'line-opacity': 1,
       }
     });
-    
-    // === Capa de proyectos ===
-    map.addSource('infra_source', {
+    // === Capa de cobertura pilares ===
+    map.addSource('coberturas_pilares_source', {
       type: 'geojson',
-      data: './src/assets/data/infraestructura_cientifica.geojson'
+      data: './src/assets/data/coberturas_pilares_datos.geojson'
     });
 
     map.addLayer({
-      id: 'infra_layer',
-      type: 'circle',
-      source: 'infra_source',
+      id: 'coberturas_pilares_fill',
+      type: 'fill',
+      source: 'coberturas_pilares_source',
       paint: {
-        'circle-color': '#A3E4D7',
-        'circle-radius': 4,
-        'circle-stroke-width': 0.1,
-        'circle-stroke-color': '#000000ff'
-        }
+        'fill-color': '#48C9B0',
+        'fill-opacity': 0.4
+      }
+    });
+    // Capa de borde del polígono
+    map.addLayer({
+      id: 'coberturas_pilares_outline',
+      type: 'line',
+      source: 'coberturas_pilares_source',
+      paint: {
+        'line-color': '#117864',
+        'line-width': 0.5,
+        'line-opacity': 1
+      }
     });
 
+    
+    // === Capa de pilares ===
+    map.addSource('pilares_source', {
+      type: 'geojson',
+      data: './src/assets/data/pilares.geojson'
+    });
+    map.addLayer({
+      id: 'pilares_layer',
+      type: 'circle',
+      source: 'pilares_source',
+      paint: {
+        'circle-radius': 2,
+        'circle-color': '#0E6251 ',  // Orange/red color to stand out
+        'circle-stroke-width': 1,
+        'circle-stroke-color': '#0E6251  ',  // White border
+        'circle-opacity': 1
+  }
+    });
 
+    // === Click en capa de coberturas ===
+    map.on('click', 'coberturas_pilares_fill', (e) => {
+      const props = e.features[0].properties;
+      const popupHTML = generarPopupCoberturaHTML(props);
 
+      new maplibregl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(popupHTML)
+        .addTo(map);
+    });
 
+    // Cambiar cursor al pasar sobre coberturas
+    map.on('mouseenter', 'coberturas_pilares_fill', () => {
+      map.getCanvas().style.cursor = 'pointer';
+    });
 
-
-
-
-
-
+    map.on('mouseleave', 'coberturas_pilares_fill', () => {
+      map.getCanvas().style.cursor = '';
+    });
 
   })
 }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cobertura espacia - Pilares</title>
+    <title>Cobertura Pilares</title>
     <link rel="stylesheet" href="./src/css/style.css">
     <!-- MapLibre GL JS CDN --> 
     <script src="https://unpkg.com/maplibre-gl@^5.6.2/dist/maplibre-gl.js"></script>
@@ -15,34 +15,42 @@
     <div class="contenedorApp">
         <header>
             <div class="barraNavegacion">
-                <h1>Pilares para el bienestar</h1>
-                <h2>Cobertura territorial y poblacional</h2>
-                <!-- <a href="https://www.gob.mx/conaguaaaa" target="_blank" class="boton">Datos</a> -->
-                
+                <div class="titulos">
+                    <h1>Pilares para el bienestar</h1>
+                    <h2>Cobertura espacial y poblacional</h2>
+                </div>
+                <a href="https://pilares.cdmx.gob.mx/" target="_blank" class="boton">Fuente</a>
             </div>
         </header>
 
 
         <div class="contenido">
             <!-- Panel lateral -->
-            <div id="sidebar">
-                <div id="filtros">
-                    <label for="filtro1">Alcaldía:</label>
-                    <select id="filtro1">
-                        <option value="">Selecciona</option>
-                    </select>
+            <aside id="sidebar">
+                <label for="filtroCategorias">Filtrar por alcaldía</label>
+                <div class="contenedorCategorias">
+                  <select id="filtroCategorias">
+                    <option value="all" selected>Todas las alcaldías</option>
+                  </select>
                 </div>
-            </div>
+                <div class="contenedor">
+                    <p id="contadorResultados"></p>
+                </div>
+                
+                <div id="listaEquipos">
+
+                </div>
+            </aside>
 
             <!-- <button id="toggleAside" class="boton">☰ Panel</button> -->
             <div class="contenedorMapa">
                 
                 <div id="map"></div>
+                                
             </div>
-        </div>
+            </div>
+
     </div>
-
-
     <script type="module" src="./src/js/main.js">
    
     </script>

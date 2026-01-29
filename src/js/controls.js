@@ -18,7 +18,7 @@ export class extentControl {
 
         // Acción al hacer clic
         button.addEventListener('click', () => {
-            map.fitBounds(mapConfig.extents.nacional); // existen otras opciones (eg) nacional, cdmx, bajio
+            map.fitBounds(mapConfig.extents.cdmx); // existen otras opciones (eg) nacional, cdmx, bajio
         });
 
         // Añade el botón al contenedor

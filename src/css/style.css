@@ -1,108 +1,295 @@
-/* === Configuración general === */
+/* estilos default */
+:root {
+    /* ==== PRIMARIOS ==== */
+    --primary-light: #A3E4D7;      /* Verde agua - fondos suaves */
+    --primary: #48C9B0;            /* Verde turquesa - color principal */
+    --primary-medium: #17A589;     /* Verde intenso - botones, énfasis */
+    --primary-dark: #117864;       /* Verde oscuro - encabezados, barras */
+    --primary-deep: #0E6251;       /* Azul petróleo - hover, acentos */
+
+    /* ==== SECUNDARIOS ==== */
+    --secondary-mint: #D1F2EB;     /* Verde menta - fondos de tarjetas */
+    --secondary-graygreen: #82E0AA;/* Verde grisáceo - bordes suaves */
+    --secondary-emerald: #239B56;  /* Verde esmeralda - iconos secundarios */
+    --secondary-blue: #154360;     /* Azul profundo - botones secundarios */
+
+    /* ==== NEUTROS ==== */
+    --neutral-white: #FFFFFF;      /* Fondo principal */
+    --neutral-light: #F4F6F7;      /* Fondo paneles, aside */
+    --neutral-medium: #BFC9CA;     /* Bordes, texto secundario */
+    --neutral-dark: #424949;       /* Texto principal */
+
+    /* ==== APOYO / ALERTAS ==== */
+    --support-yellow: #F9E79F;     /* Advertencias suaves */
+    --support-red: #E74C3C;        /* Errores */
+    --support-blue: #5DADE2;       /* Información */
+}
+
+/* Variables generales*/
 html {
-  font-size: 14px;
+    font-size: 16px; /* base común en la mayoría de navegadores */
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
 
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Inter", sans-serif;
-  height: 100vh;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+    
 }
 
-/* === Contenedor principal === */
+
+/* Estilos particulares*/
 .contenedorApp {
+    height: 90vh;
+    width: 99vw;
+}
+  header {
+        width: 100%;
+        padding: 0.6rem;
+    }
+
+        .barraNavegacion {
+        display: flex;
+        align-items: center;       /* centra verticalmente los elementos */
+        justify-content: space-between; /* empuja el botón al extremo derecho */
+        padding: 0.6rem 1.2rem;
+        border-bottom: 0.05rem solid var(--neutral-medium);
+    }
+
+        .titulos {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Título */
+        .barraNavegacion h1 {
+            font-size: 2rem;
+            color: var(--neutral-dark);
+            margin: 0;
+        }
+
+        .barraNavegacion h2 {
+            font-size: 1.5rem;
+            color: var(--neutral-dark);
+            font-weight: normal;
+            margin: 0;
+        }
+
+    .boton {
+        background-color:var(--primary-medium);
+        color: var(--neutral-white);
+        border: none;
+        border-radius: 1rem;
+        padding: 0.4rem 0.8rem;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        }
+        .boton:hover {
+            background-color: var(--primary-deep);
+        }
+
+
+/* */
+.contenido{
+        height:100%;
+        width:100%;
+        display: flex;
+        margin: 0.6rem;
+        
+               
+    }
+    
+        aside{
+            /* border: 1px solid gray;
+            background-color: white;
+            z-index: 1;
+            height: 100%; */
+            width: 25%; /*420px*/
+            background: var(--neutral-light);
+            border-right: .0625rem solid var(--neutral-medium);
+            display: flex;
+            flex-direction: column;
+            padding: .625rem;
+            box-sizing: border-box;
+            overflow: hidden;            /* evita que sobresalga el contenido */
+            border: .0625rem solid var(--neutral-medium);
+            transition: transform 0.3s ease;
+            
+        }
+            
+                
+        .contenedorCategorias{
+            border-bottom: .0625rem solid gray;
+        }
+
+        .contenedor {
+            display: flex;
+            align-items: center;     
+            justify-content: space-between; /*flex-start*/
+            padding: .625rem 1.25rem;
+            margin-bottom: .9375rem;
+            border-bottom: .0625rem solid var(--neutral-medium);
+             
+        }      
+            
+
+        #listaEquipos {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: .25rem;
+            }
+
+            .item-equipo {
+            background: var(--neutral-light);
+            border: .0625rem solid #ddd;
+            border-radius: .375rem;
+            padding: .5rem;
+            margin-bottom: .5rem;
+            cursor: pointer;
+            transition: background 0.2s ease, border-color 0.2s ease;
+            }
+
+            .item-equipo:hover {
+            background: var(--neutral-medium);
+            border-color: var(--primary-dark);
+            }
+    
+        #filtroCategorias{
+            margin: .75rem;
+            padding: .25rem;
+            border-radius: .4375rem;
+            border: .0625rem solid var(--neutral-medium);
+        }
+
+.contenedorMapa{
+        flex:1;
+    }
+    
+
+    #map{
+        /*display: flex;
+        justify-content: center;
+        align-items: center;*/
+        width: 100%;
+        height: 100%;
+        border: 1px solid var(--neutral-medium);       
+}
+
+
+/**/
+
+
+.maplibregl-ctrl-icon {
+  font-size: 0.9rem;
+  background: white;
+  border: none;
+  cursor: pointer;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.25rem;
+}
+
+.maplibregl-ctrl-icon:hover,
+.maplibregl-mapa-group {
+  background: #f0f0f0;
+}
+
+.maplibregl-ctrl-group,
+.maplibregl-mapa-group{
+  gap: 0.25rem;
+}
+.maplibregl-mapa-group {
+    display: flex; 
+}
+
+.basemap-control {
+  background: white;
+  border-radius: 4px;
+  padding: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  gap: 0.4rem;
+  font-family: sans-serif;
+  font-size: 0.8rem;
+}
+.basemap-title {
+  font-weight: 600;
+  color: #333;
 }
 
-/* === Header === */
-header {
-  background-color: #1f2937;
-  color: white;
-  padding: 1rem 2rem;
-}
-
-.barraNavegacion {
+.basemap-option {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: row-reverse;
+  gap: 0.25rem;
+  cursor: pointer;
 }
 
 
-.boton {
-  background-color: #3b82f6;
-  color: white;
-  text-decoration: none;
-  padding: 0.6rem 1.2rem;
-  border-radius: 0.5rem;
-  font-size: 1.4rem;
+.leyenda {
+    position: absolute;
+    bottom: 60px;
+    right: 35px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+    padding: 10px 14px;
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 0.8rem;
+    color: #333;
+    max-width: 260px;
+  }
+
+  .leyenda h4 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 4px;
+  }
+
+  .leyenda h5 {
+    margin: 10px 0 4px 0;
+    font-size: 14px;
+    color: #0E6251;
+  }
+
+  .leyenda ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .leyenda li {
+    display: flex;
+    align-items: center;
+    margin: 2px 0;
+  }
+
+  .leyenda li span {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    margin-right: 6px;
+    border-radius: 3px;
+    border: 1px solid #999;
+  }
+  .spanLinea {
+  display: inline-block;
+  width: 28px;              /* largo de la línea */
+  height: 0;                /* sin altura */
+  border-top: 3px solid;    /* grosor y color de la línea */
+  margin-right: 8px;        /* espacio con el texto */
+  vertical-align: middle;   /* alinea con el texto */
 }
 
-.boton:hover {
-  background-color: #2563eb;
-}
-
-/* === Contenido principal: mapa + sidebar === */
-.contenido {
-  display: flex;
-  flex-direction: row; /* Fila por defecto (pantallas grandes) */
-  flex: 1;
-  overflow: hidden;
-}
-
-/* === Sidebar === */
-#sidebar {
-  width: 25%; /* 300px */
-  background-color: #f3f4f6;
-  border-right: 1px solid #d1d5db;
-  padding: 1.5rem;
-  overflow-y: auto;
-  order: 1; /* Aparece primero en escritorio */
-  font-size: 1.4rem;
-}
-
-#filtros {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-#filtros select {
-  padding: 0.6rem;
-  font-size: 1.4rem;
-}
-
-/* === Contenedor del mapa === */
-.contenedorMapa {
-  flex: 1;
-  order: 2;
-  position: relative;
-}
-
-#map {
-  position: absolute;
-  inset: 0; 
-}
-
-* {
-  box-sizing: border-box;
-  max-width: 100%;
-}
-
-/* 🔹 2. Evita el scroll horizontal global */
-html,
-body {
-  overflow-x: hidden;
-  width: 100%;
-}
-
-
-
-
-
-
+  .grupo + .grupo {
+    margin-top: 10px;
+  }
 
 /* === Media query para pantallas pequeñas === */
 @media (max-width: 768px) {

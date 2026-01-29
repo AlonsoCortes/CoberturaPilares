@@ -1,7 +1,7 @@
 export const mapConfig = {
   
-  center: [-102, 23], // CDMX
-  zoom: 4,
+  center: [-99.08, 19.32], // CDMX
+  zoom: 9.9,
   // Se pueden definir limites, en caso de tener solo uno usar bounds
   //bounds: [
   //  [-120, 11], // Suroeste
@@ -10,7 +10,7 @@ export const mapConfig = {
   //  En caso de tener varios, se usa extents, estos se pueden llamar para distintas funciones
   extents: {
     nacional: [[-120, 11], [-85, 34]],
-    cdmx: [[-99.36, 19.20], [-98.80, 19.60]],
+    cdmx: [[-99.36, 19.04], [-98.80, 19.60]],
     bajio: [[-103.5, 19.5], [-100.5, 22.5]]
   },
   
