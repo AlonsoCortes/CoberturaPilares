@@ -11,6 +11,7 @@ export function generarPopupCoberturaHTML(props) {
     <div class="popup-content">
       <b class="popupTitulo" style="font-size:14px; color:#0E6251;">${nombre}</b>
       ${alcaldia ? `<div style="margin-top:4px; color:#117864;"><b>${alcaldia}</b></div>` : ''}
+      <div style="font-size:11px; color:#666; margin-top:2px;"><i>Cobertura: 700 m</i></div>
 
       <hr style="margin: 6px 0; border: none; border-top: 1px solid #ddd;">
       <div style="font-size:12px;">

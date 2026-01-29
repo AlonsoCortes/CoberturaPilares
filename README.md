@@ -8,9 +8,15 @@ https://alonsocortes.github.io/CoberturaPilares/
 
 Esta aplicación web permite visualizar:
 - Ubicación de los Pilares para el Bienestar en CDMX
-- Áreas de cobertura de cada Pilar
+- Áreas de cobertura de cada Pilar (radio de **700 metros**)
 - Datos poblacionales de las zonas cubiertas (población total, distribución por género, escolaridad, etc.)
 - Filtrado por alcaldía
+
+## Metodología
+
+El área de cobertura de cada Pilar se calculó utilizando un **buffer de 700 metros** alrededor de cada establecimiento. Esta distancia representa el radio de influencia territorial que puede atender cada Pilar, considerando una distancia caminable para la población beneficiaria.
+
+Los datos poblacionales se obtuvieron cruzando las áreas de cobertura con información del Censo de Población y Vivienda.
 
 ## Tecnologías
 
@@ -60,6 +66,8 @@ Abrir `http://localhost:8000` en el navegador.
 ## Datos
 
 Los datos de los Pilares provienen del portal oficial: [pilares.cdmx.gob.mx](https://pilares.cdmx.gob.mx/)
+
+**Nota:** La información mostrada es aproximada y puede no reflejar la cobertura real de los establecimientos. Los datos están sujetos a actualizaciones y pueden contener imprecisiones derivadas de las fuentes originales.
 
 ## Autor
 
