@@ -2,6 +2,8 @@
 
 Geovisor interactivo que muestra la cobertura espacial y poblacional de los establecimientos **Pilares para el Bienestar** en la Ciudad de México.
 
+https://alonsocortes.github.io/CoberturaPilares/
+
 ## Descripción
 
 Esta aplicación web permite visualizar:
