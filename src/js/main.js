@@ -2,6 +2,7 @@ import { mapConfig } from './config.js';
 import { extentControl } from './controls.js';
 import { cargarCapas } from './01_cargarCapas.js';
 import { filtro } from './02_filtro.js'
+import { graficas } from './04_graficas.js'
 
 
 
@@ -21,3 +22,4 @@ map.addControl(new extentControl(), 'top-right');
 // Otros
 cargarCapas(map);
 filtro(map);
+graficas(map);

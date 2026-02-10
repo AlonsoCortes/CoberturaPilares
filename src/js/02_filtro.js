@@ -130,6 +130,9 @@ export function filtro(map) {
 
         coberturasSource.setData(filtrados);
         renderizarLista(filtrados.features);
+        document.dispatchEvent(new CustomEvent("filtro:cambio", {
+          detail: { alcaldia: alcaldiaSeleccionada, features: filtrados.features }
+        }));
       });
 
     // Hacer zoom a la alcaldía seleccionada o volver a la vista original
@@ -169,6 +172,11 @@ export function filtro(map) {
   map.on("load", () => {
     fetch("./src/assets/data/coberturas_pilares_datos.geojson")
       .then((response) => response.json())
-      .then((data) => renderizarLista(data.features));
+      .then((data) => {
+        renderizarLista(data.features);
+        document.dispatchEvent(new CustomEvent("filtro:cambio", {
+          detail: { alcaldia: "all", features: data.features }
+        }));
+      });
   });
 }

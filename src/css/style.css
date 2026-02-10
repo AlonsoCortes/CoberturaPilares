@@ -105,22 +105,17 @@ html {
                
     }
     
-        aside{
-            /* border: 1px solid gray;
-            background-color: white;
-            z-index: 1;
-            height: 100%; */
-            width: 25%; /*420px*/
+        #sidebar{
+            width: 25%;
             background: var(--neutral-light);
             border-right: .0625rem solid var(--neutral-medium);
             display: flex;
             flex-direction: column;
             padding: .625rem;
             box-sizing: border-box;
-            overflow: hidden;            /* evita que sobresalga el contenido */
+            overflow: hidden;
             border: .0625rem solid var(--neutral-medium);
             transition: transform 0.3s ease;
-            
         }
             
                 
@@ -310,24 +305,42 @@ html {
 /* === Media query para pantallas pequeñas === */
 @media (max-width: 768px) {
   .contenido {
-    flex-direction: column; /* Pasa de fila a columna */
+    flex-direction: column;
     height: 100%;
     width: 100%;
-    overflow-x: hidden; /* evita que flex genere scroll lateral */
+    overflow-x: hidden;
   }
 
-  /* Invertimos el orden */
   .contenedorMapa {
-    order: 1; /* El mapa se muestra primero */
-    height: 70vh;
+    order: 1;
+    height: 60vh;
   }
 
   #sidebar {
-    order: 2; /* Sidebar debajo */
+    order: 2;
     width: 100%;
-    height: 30vh;
+    height: 25vh;
     border-right: none;
     border-top: 1px solid #d1d5db;
+  }
+
+  #toggleGraficas {
+    order: 3;
+    width: 100%;
+    height: 1.5rem;
+    border: .0625rem solid var(--neutral-medium);
+    border-left: .0625rem solid var(--neutral-medium);
+  }
+
+  .panel-graficas {
+    order: 4;
+    width: 100%;
+    min-width: 0;
+    max-height: 25vh;
+  }
+  .panel-graficas.colapsado {
+    max-height: 0;
+    width: 100%;
   }
 
   header h1 {
@@ -346,5 +359,103 @@ html {
 #sidebar::-webkit-scrollbar-thumb {
   background-color: #cbd5e1;
   border-radius: 0.3rem;
+}
+
+/* === Panel de gráficas === */
+#toggleGraficas {
+  flex-shrink: 0;
+  width: 1.5rem;
+  background: var(--neutral-light);
+  border: .0625rem solid var(--neutral-medium);
+  border-left: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  font-size: 0.75rem;
+  color: var(--neutral-dark);
+  transition: background 0.2s ease;
+}
+#toggleGraficas:hover {
+  background: var(--neutral-medium);
+}
+
+.panel-graficas {
+  width: 22%;
+  min-width: 280px;
+  background: var(--neutral-light);
+  border: .0625rem solid var(--neutral-medium);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: width 0.3s ease, min-width 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+}
+.panel-graficas.colapsado {
+  width: 0;
+  min-width: 0;
+  opacity: 0;
+  padding: 0;
+  border: none;
+}
+
+.panel-header {
+  padding: 0.625rem;
+  border-bottom: .0625rem solid var(--neutral-medium);
+  flex-shrink: 0;
+}
+.panel-header h3 {
+  font-size: 1.1rem;
+  color: var(--primary-dark);
+  margin: 0 0 0.2rem 0;
+}
+.panel-header p {
+  font-size: 0.8rem;
+  color: var(--neutral-dark);
+  margin: 0;
+}
+
+.panel-contenido {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.625rem;
+}
+.panel-contenido section {
+  margin-bottom: 1rem;
+}
+.panel-contenido h4 {
+  font-size: 0.85rem;
+  color: var(--primary-deep);
+  margin: 0 0 0.4rem 0;
+  border-bottom: .0625rem solid var(--neutral-medium);
+  padding-bottom: 0.2rem;
+}
+
+.grafica-contenedor {
+  width: 100%;
+  min-height: 60px;
+}
+.grafica-contenedor svg {
+  width: 100% !important;
+  height: auto !important;
+}
+
+.panel-contenido::-webkit-scrollbar {
+  width: 0.5rem;
+}
+.panel-contenido::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 0.3rem;
+}
+
+/* === Media queries actualizadas === */
+@media (max-width: 1200px) {
+  #sidebar {
+    width: 22%;
+  }
+  .panel-graficas {
+    width: 20%;
+    min-width: 240px;
+  }
 }
 

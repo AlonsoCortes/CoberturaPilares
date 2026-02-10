@@ -5,7 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cobertura Pilares</title>
     <link rel="stylesheet" href="./src/css/style.css">
-    <!-- MapLibre GL JS CDN --> 
+    <script type="importmap">
+    {
+      "imports": {
+        "@observablehq/plot": "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm"
+      }
+    }
+    </script>
+    <!-- MapLibre GL JS CDN -->
     <script src="https://unpkg.com/maplibre-gl@^5.6.2/dist/maplibre-gl.js"></script>
     <link href="https://unpkg.com/maplibre-gl@^5.6.2/dist/maplibre-gl.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn-uicons.flaticon.com/uicons-regular-straight/css/uicons-regular-straight.css">
@@ -51,6 +58,35 @@
                 <div id="map"></div>
                                 
             </div>
+
+            <button id="toggleGraficas" title="Mostrar/ocultar indicadores">
+                <span id="toggleIcono">▶</span>
+            </button>
+
+            <aside id="panelGraficas" class="panel-graficas colapsado">
+                <div class="panel-header">
+                    <h3>Indicadores</h3>
+                    <p id="panelSubtitulo">Todas las alcaldías</p>
+                </div>
+                <div class="panel-contenido">
+                    <section>
+                        <h4>Distribución por edad</h4>
+                        <div id="graficaEdad" class="grafica-contenedor"></div>
+                    </section>
+                    <section>
+                        <h4>Distribución por género</h4>
+                        <div id="graficaGenero" class="grafica-contenedor"></div>
+                    </section>
+                    <section>
+                        <h4>Escolaridad promedio</h4>
+                        <div id="graficaEscolaridad" class="grafica-contenedor"></div>
+                    </section>
+                    <section>
+                        <h4>Indicadores sociales</h4>
+                        <div id="graficaSocial" class="grafica-contenedor"></div>
+                    </section>
+                </div>
+            </aside>
             </div>
 
     </div>
