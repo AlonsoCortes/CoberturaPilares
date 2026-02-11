@@ -5,7 +5,8 @@ const COLORES = {
   light: "#A3E4D7",
   dark: "#117864",
   medium: "#17A589",
-  deep: "#0E6251"
+  deep: "#0E6251",
+  ref: "#E74C3C"
 };
 
 const GRUPOS_EDAD = [
@@ -84,39 +85,57 @@ function agregarDatos(features) {
   };
 }
 
-function renderGraficaEdad(contenedor, datos, width) {
+function renderGraficaEdad(contenedor, datos, width, ref) {
   contenedor.innerHTML = "";
   if (!datos) return;
+
+  const maxVals = datos.edadData.map(d => d.porcentaje);
+  if (ref) maxVals.push(...ref.edadData.map(d => d.porcentaje));
+  const maxX = Math.max(...maxVals) * 1.25;
+
+  const marks = [
+    Plot.barX(datos.edadData, {
+      x: "porcentaje",
+      y: "grupo",
+      fill: COLORES.primary,
+      tip: true
+    }),
+    Plot.text(datos.edadData, {
+      x: "porcentaje",
+      y: "grupo",
+      text: d => d.porcentaje.toFixed(1) + "%",
+      dx: 4,
+      textAnchor: "start",
+      fontSize: 10
+    }),
+    Plot.ruleX([0])
+  ];
+
+  if (ref) {
+    marks.push(
+      Plot.tickX(ref.edadData, {
+        x: "porcentaje",
+        y: "grupo",
+        stroke: COLORES.ref,
+        strokeWidth: 2,
+        strokeDasharray: "4 2"
+      })
+    );
+  }
 
   const chart = Plot.plot({
     width,
     height: 220,
     marginLeft: 50,
     marginRight: 40,
-    x: { label: "%" , domain: [0, Math.max(...datos.edadData.map(d => d.porcentaje)) * 1.2] },
+    x: { label: "%", domain: [0, maxX] },
     y: { label: null, domain: datos.edadData.map(d => d.grupo) },
-    marks: [
-      Plot.barX(datos.edadData, {
-        x: "porcentaje",
-        y: "grupo",
-        fill: COLORES.primary,
-        tip: true
-      }),
-      Plot.text(datos.edadData, {
-        x: "porcentaje",
-        y: "grupo",
-        text: d => d.porcentaje.toFixed(1) + "%",
-        dx: 4,
-        textAnchor: "start",
-        fontSize: 10
-      }),
-      Plot.ruleX([0])
-    ]
+    marks
   });
   contenedor.appendChild(chart);
 }
 
-function renderGraficaGenero(contenedor, datos, width) {
+function renderGraficaGenero(contenedor, datos, width, ref) {
   contenedor.innerHTML = "";
   if (!datos) return;
 
@@ -125,6 +144,40 @@ function renderGraficaGenero(contenedor, datos, width) {
     { categoria: "Hombres", porcentaje: datos.pctHombres, absoluto: datos.hombres }
   ];
 
+  const marks = [
+    Plot.barX(generoData, {
+      x: "porcentaje",
+      y: "categoria",
+      fill: d => d.categoria === "Mujeres" ? COLORES.medium : COLORES.dark,
+      tip: true
+    }),
+    Plot.text(generoData, {
+      x: "porcentaje",
+      y: "categoria",
+      text: d => d.porcentaje.toFixed(1) + "%",
+      dx: 4,
+      textAnchor: "start",
+      fontSize: 10
+    }),
+    Plot.ruleX([0])
+  ];
+
+  if (ref) {
+    const refGenero = [
+      { categoria: "Mujeres", porcentaje: ref.pctMujeres },
+      { categoria: "Hombres", porcentaje: ref.pctHombres }
+    ];
+    marks.push(
+      Plot.tickX(refGenero, {
+        x: "porcentaje",
+        y: "categoria",
+        stroke: COLORES.ref,
+        strokeWidth: 2,
+        strokeDasharray: "4 2"
+      })
+    );
+  }
+
   const chart = Plot.plot({
     width,
     height: 100,
@@ -132,23 +185,7 @@ function renderGraficaGenero(contenedor, datos, width) {
     marginRight: 50,
     x: { label: "%", domain: [0, 100] },
     y: { label: null },
-    marks: [
-      Plot.barX(generoData, {
-        x: "porcentaje",
-        y: "categoria",
-        fill: d => d.categoria === "Mujeres" ? COLORES.medium : COLORES.dark,
-        tip: true
-      }),
-      Plot.text(generoData, {
-        x: "porcentaje",
-        y: "categoria",
-        text: d => d.porcentaje.toFixed(1) + "%",
-        dx: 4,
-        textAnchor: "start",
-        fontSize: 10
-      }),
-      Plot.ruleX([0])
-    ]
+    marks
   });
   contenedor.appendChild(chart);
 
@@ -158,7 +195,7 @@ function renderGraficaGenero(contenedor, datos, width) {
   contenedor.appendChild(info);
 }
 
-function renderGraficaEscolaridad(contenedor, datos, width) {
+function renderGraficaEscolaridad(contenedor, datos, width, ref) {
   contenedor.innerHTML = "";
   if (!datos) return;
 
@@ -168,7 +205,48 @@ function renderGraficaEscolaridad(contenedor, datos, width) {
     { categoria: "Hombres", valor: datos.escoHom }
   ];
 
-  const maxVal = Math.max(...escoData.map(d => d.valor));
+  const allVals = escoData.map(d => d.valor);
+  if (ref) allVals.push(ref.escoProm, ref.escoMuj, ref.escoHom);
+  const maxVal = Math.max(...allVals);
+
+  const marks = [
+    Plot.barX(escoData, {
+      x: "valor",
+      y: "categoria",
+      fill: d => {
+        if (d.categoria === "General") return COLORES.primary;
+        if (d.categoria === "Mujeres") return COLORES.medium;
+        return COLORES.dark;
+      },
+      tip: true
+    }),
+    Plot.text(escoData, {
+      x: "valor",
+      y: "categoria",
+      text: d => d.valor.toFixed(1),
+      dx: 4,
+      textAnchor: "start",
+      fontSize: 10
+    }),
+    Plot.ruleX([0])
+  ];
+
+  if (ref) {
+    const refEsco = [
+      { categoria: "General", valor: ref.escoProm },
+      { categoria: "Mujeres", valor: ref.escoMuj },
+      { categoria: "Hombres", valor: ref.escoHom }
+    ];
+    marks.push(
+      Plot.tickX(refEsco, {
+        x: "valor",
+        y: "categoria",
+        stroke: COLORES.ref,
+        strokeWidth: 2,
+        strokeDasharray: "4 2"
+      })
+    );
+  }
 
   const chart = Plot.plot({
     width,
@@ -177,32 +255,12 @@ function renderGraficaEscolaridad(contenedor, datos, width) {
     marginRight: 50,
     x: { label: "Años", domain: [0, maxVal * 1.2 || 15] },
     y: { label: null },
-    marks: [
-      Plot.barX(escoData, {
-        x: "valor",
-        y: "categoria",
-        fill: d => {
-          if (d.categoria === "General") return COLORES.primary;
-          if (d.categoria === "Mujeres") return COLORES.medium;
-          return COLORES.dark;
-        },
-        tip: true
-      }),
-      Plot.text(escoData, {
-        x: "valor",
-        y: "categoria",
-        text: d => d.valor.toFixed(1),
-        dx: 4,
-        textAnchor: "start",
-        fontSize: 10
-      }),
-      Plot.ruleX([0])
-    ]
+    marks
   });
   contenedor.appendChild(chart);
 }
 
-function renderGraficaSocial(contenedor, datos, width) {
+function renderGraficaSocial(contenedor, datos, width, ref) {
   contenedor.innerHTML = "";
   if (!datos) return;
 
@@ -212,7 +270,45 @@ function renderGraficaSocial(contenedor, datos, width) {
     { indicador: "Nacido extranjero", porcentaje: datos.pctNacidoOtro }
   ];
 
-  const maxVal = Math.max(...socialData.map(d => d.porcentaje));
+  const allVals = socialData.map(d => d.porcentaje);
+  if (ref) allVals.push(ref.pctDiscapacidad, ref.pctDesocupada, ref.pctNacidoOtro);
+  const maxVal = Math.max(...allVals);
+
+  const marks = [
+    Plot.barX(socialData, {
+      x: "porcentaje",
+      y: "indicador",
+      fill: COLORES.light,
+      stroke: COLORES.dark,
+      tip: true
+    }),
+    Plot.text(socialData, {
+      x: "porcentaje",
+      y: "indicador",
+      text: d => d.porcentaje.toFixed(2) + "%",
+      dx: 4,
+      textAnchor: "start",
+      fontSize: 10
+    }),
+    Plot.ruleX([0])
+  ];
+
+  if (ref) {
+    const refSocial = [
+      { indicador: "Discapacidad", porcentaje: ref.pctDiscapacidad },
+      { indicador: "Desempleo", porcentaje: ref.pctDesocupada },
+      { indicador: "Nacido extranjero", porcentaje: ref.pctNacidoOtro }
+    ];
+    marks.push(
+      Plot.tickX(refSocial, {
+        x: "porcentaje",
+        y: "indicador",
+        stroke: COLORES.ref,
+        strokeWidth: 2,
+        strokeDasharray: "4 2"
+      })
+    );
+  }
 
   const chart = Plot.plot({
     width,
@@ -221,33 +317,15 @@ function renderGraficaSocial(contenedor, datos, width) {
     marginRight: 50,
     x: { label: "%", domain: [0, maxVal * 1.3 || 5] },
     y: { label: null },
-    marks: [
-      Plot.barX(socialData, {
-        x: "porcentaje",
-        y: "indicador",
-        fill: COLORES.light,
-        stroke: COLORES.dark,
-        tip: true
-      }),
-      Plot.text(socialData, {
-        x: "porcentaje",
-        y: "indicador",
-        text: d => d.porcentaje.toFixed(2) + "%",
-        dx: 4,
-        textAnchor: "start",
-        fontSize: 10
-      }),
-      Plot.ruleX([0])
-    ]
+    marks
   });
   contenedor.appendChild(chart);
 }
 
 export function graficas(map) {
   const panel = document.getElementById("panelGraficas");
-  const toggle = document.getElementById("toggleGraficas");
-  const icono = document.getElementById("toggleIcono");
   const subtitulo = document.getElementById("panelSubtitulo");
+  const leyendaRef = document.getElementById("panelLeyendaRef");
 
   const contenedores = {
     edad: document.getElementById("graficaEdad"),
@@ -257,17 +335,8 @@ export function graficas(map) {
   };
 
   let ultimosDatos = null;
-
-  // Toggle colapsar/expandir
-  toggle.addEventListener("click", () => {
-    panel.classList.toggle("colapsado");
-    const abierto = !panel.classList.contains("colapsado");
-    icono.textContent = abierto ? "◀" : "▶";
-    // Re-render al expandir si hay datos
-    if (abierto && ultimosDatos) {
-      requestAnimationFrame(() => renderAll(ultimosDatos));
-    }
-  });
+  let datosGlobales = null;
+  let alcaldiaActual = "all";
 
   function getWidth() {
     const w = contenedores.edad.clientWidth;
@@ -276,23 +345,27 @@ export function graficas(map) {
 
   function renderAll(datos) {
     const width = getWidth();
-    renderGraficaEdad(contenedores.edad, datos, width);
-    renderGraficaGenero(contenedores.genero, datos, width);
-    renderGraficaEscolaridad(contenedores.escolaridad, datos, width);
-    renderGraficaSocial(contenedores.social, datos, width);
+    const ref = (alcaldiaActual !== "all" && datosGlobales) ? datosGlobales : null;
+    renderGraficaEdad(contenedores.edad, datos, width, ref);
+    renderGraficaGenero(contenedores.genero, datos, width, ref);
+    renderGraficaEscolaridad(contenedores.escolaridad, datos, width, ref);
+    renderGraficaSocial(contenedores.social, datos, width, ref);
   }
 
   function actualizarGraficas(alcaldia, features) {
+    alcaldiaActual = alcaldia;
     subtitulo.textContent = alcaldia === "all" ? "Todas las alcaldías" : alcaldia;
     const datos = agregarDatos(features);
     ultimosDatos = datos;
 
-    if (!panel.classList.contains("colapsado")) {
-      renderAll(datos);
+    if (alcaldia === "all" && !datosGlobales) {
+      datosGlobales = datos;
     }
+
+    leyendaRef.style.display = (alcaldia !== "all" && datosGlobales) ? "flex" : "none";
+    renderAll(datos);
   }
 
-  // Escuchar cambios de filtro
   document.addEventListener("filtro:cambio", (e) => {
     const { alcaldia, features } = e.detail;
     actualizarGraficas(alcaldia, features);
@@ -303,7 +376,7 @@ export function graficas(map) {
   const observer = new ResizeObserver(() => {
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
-      if (ultimosDatos && !panel.classList.contains("colapsado")) {
+      if (ultimosDatos) {
         renderAll(ultimosDatos);
       }
     }, 250);
